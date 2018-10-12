@@ -3,6 +3,7 @@ package com.summer.fanout;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.QueueingConsumer;
+import com.summer.Config;
 import com.summer.connect.ConnectionUtil;
 
 import java.io.IOException;
@@ -49,8 +50,8 @@ public class Receive implements Runnable {
         //获取消息
         while (true) {
             QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-            String message = new String(delivery.getBody());
-            System.out.println("【Receive】【" + queueName+"】【" + message + "】");
+            String message = new String(delivery.getBody(), Config.charset);
+            System.out.println("【Receive】【" + queueName + "】【" + message + "】");
             Thread.sleep(100);
             //手动返回
             channel.basicAck(delivery.getEnvelope().getDeliveryTag(), false);

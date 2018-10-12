@@ -2,6 +2,7 @@ package com.summer.fanout;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
+import com.summer.Config;
 import com.summer.connect.ConnectionUtil;
 
 import java.io.IOException;
@@ -37,8 +38,8 @@ public class Send implements Runnable {
 
         int i = 1;
         while (true) {
-            String msg = "fanout消息" + i++;
-            channel.basicPublish(exchangeName, "", null, msg.getBytes());
+            String msg = exchangeName + "fanout消息" + i++;
+            channel.basicPublish(exchangeName, "", null, msg.getBytes(Config.charset));
             Thread.sleep(1000);
         }
 //        channel.close();
